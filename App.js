@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 
 export default function App() {
   const [lembrete, setLembrete] = useState('');
   const [lembretes, setLembretes] = useState([]);
+  const [contador, setContador] = useState(0);
 
   const capturarLembrete = (lembreteDigitado) => {
     setLembrete(lembreteDigitado)
@@ -11,7 +12,8 @@ export default function App() {
 
   const adicionarLembrete = () => {
     setLembretes(lembretes => {
-      let aux = [lembrete, ...lembretes]
+      setContador(contador + 1)
+      let aux = [{key: contador.toString(), value: lembrete}, ...lembretes]
       setLembrete('')
       return aux
     })
@@ -34,19 +36,15 @@ export default function App() {
           title='Adicionar lembrete'
           onPress={adicionarLembrete}
         />
-        <Text>{lembrete}</Text>
       </View>
-      <ScrollView>
-        {/* aqui será exibida a lista de lembretes */}
-        {/* Fazer café => <Text>Fazer café</Text> */}
-        {
-          lembretes.map(l => (
-            <View key={l} style={styles.itemNaLista}>
-              <Text>{l}</Text>
-            </View>
-          ))
-        }
-      </ScrollView>
+      <FlatList 
+        data={lembretes}
+        renderItem={l => (
+          <View style={styles.itemNaLista}>
+            <Text>{l.item.value}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
@@ -72,3 +70,13 @@ const styles = StyleSheet.create({
   }
 
 });
+
+{/* <ScrollView>
+        {
+          lembretes.map(l => (
+            <View key={l} style={styles.itemNaLista}>
+              <Text>{l}</Text>
+            </View>
+          ))
+        }
+</ScrollView> */}
