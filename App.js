@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 
 export default function App() {
   const [lembrete, setLembrete] = useState('');
@@ -36,13 +36,17 @@ export default function App() {
         />
         <Text>{lembrete}</Text>
       </View>
-      <View>
+      <ScrollView>
         {/* aqui será exibida a lista de lembretes */}
         {/* Fazer café => <Text>Fazer café</Text> */}
         {
-          lembretes.map(l => <Text>{l}</Text>)
+          lembretes.map(l => (
+            <View key={l} style={styles.itemNaLista}>
+              <Text>{l}</Text>
+            </View>
+          ))
         }
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -58,5 +62,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     padding: 12
   },
+  itemNaLista: {
+    marginTop: 8,
+    padding:12,
+    backgroundColor: '#CCC',
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 8
+  }
 
 });
